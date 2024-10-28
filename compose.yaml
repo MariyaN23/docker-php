@@ -1,0 +1,22 @@
+services:
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - "./app:/var/www/html"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - "./app:/var/www/html"
+      - "./docker/nginx/conf.d:/etc/nginx/conf.d"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - "./docker/volume/postgresql:/var/lib/postgresql"
